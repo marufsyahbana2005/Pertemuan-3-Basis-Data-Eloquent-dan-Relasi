@@ -4,10 +4,13 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\TicketController;
 
-// 1. Rute untuk halaman tiket (mengatasi eror 404 di /tickets)
-Route::get('/tickets', [TicketController::class, 'index']);
+// 1. Pola parameter rute (hanya menerima angka ID)
+Route::pattern('ticket', '[0-9]+');
 
-// 2. Rute pengujian kueri benchmark (menghasilkan JSON pengukuran)
+// 2. Rute resource tiket (mencakup index, create, store, show, edit, update, destroy)
+Route::resource('tickets', TicketController::class);
+
+// 3. Rute pengujian kueri benchmark (menghasilkan JSON pengukuran)
 Route::get('/benchmark', function () {
     // A: baseline lazy loading
     DB::enableQueryLog();
